@@ -3,9 +3,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoDBSession = require('connect-mongo');
+const cors = require('cors')
 
 const app = express()
 app.use(express.json());
+app.use(cors());
 
 const PORT = process.env.PORT
 const MONGO_URI = process.env.MONGO_URI
@@ -39,10 +41,8 @@ const logout = require('./routes/logout')
 app.use('/logout',logout)
 
 const isAuth = require('./middleware/isAuth')
-
-app.use('/u',isAuth);
 const dashboard = require('./routes/dashboard')
-app.use('/u',dashboard)
+app.use('/u',isAuth,dashboard)
 
 
 

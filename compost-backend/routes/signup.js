@@ -7,13 +7,12 @@ router.post('/',async(req,res) => {
     console.log('Visited Signup Page');
     
     try{
-        const {name, email, password, state} = req.body
+        const {username, email, password} = req.body
         
-        if(!(name && email && password && state)){
-            if(!name) console.log('name');
+        if(!(username && email && password)){
+            if(!username) console.log('username');
             if(!email) console.log('email');
             if(!password) console.log('password');
-            if(!state) console.log('state');
             
            return res.status(401).send('All fields are compulsory')
         }
@@ -26,10 +25,9 @@ router.post('/',async(req,res) => {
         
         const hashedpwd = await bcrypt.hash(password,10);
         const user = await User.create({
-            name,
+            name: username,
             email,
             password: hashedpwd,
-            state,
         })
 
         

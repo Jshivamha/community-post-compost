@@ -8,8 +8,8 @@ router.use('/new-community',newcommunity)
 const community = require('./community')
 router.use('/mycommunity',community)
 
-const singlecommunity = require('../middleware/open-single-community')
-router.use('/:communityname',singlecommunity)
+// const singlecommunity = require('../middleware/open-single-community')
+// router.use('/:communityname',singlecommunity)
 
 router.get('/dashboard',async(req,res) => {
     console.log('Visited dashboard');

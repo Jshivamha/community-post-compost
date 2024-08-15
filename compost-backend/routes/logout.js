@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/',(req,res) => {
+router.post('/',async(req,res) => {
     console.log('Visited logout');
-    req.session.destroy((err) => {
+    await req.session.destroy((err) => {
         if(err) throw err;
-        res.redirect('/')
     })
+    console.log("logged out")
+    res.status(200).send("User logged out");
 })
 
 module.exports = router

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const session = require('express-session')
 const User = require('../modals/User')
 
-router.get('/',async(req,res) => {
+router.post('/',async(req,res) => {
     console.log('Visited login Page');
     
     try{
@@ -31,12 +31,12 @@ router.get('/',async(req,res) => {
 
         req.session.isAuth = true;
         req.session.userId = existingUser._id;
-        res.status(200).redirect('/u/dashboard')
+        console.log(req.session.userId);
+        res.status(200).send("logged in");
     }
     catch(err){
         console.log(err)
     }
-
     
 
 })
