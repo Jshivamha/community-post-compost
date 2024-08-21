@@ -20,19 +20,20 @@ router.post('/',async(req,res) => {
         const existingUser = await User.findOne({email})
         if(!existingUser){
             console.log('User does not already exist')
-            return res.status(400).redirect('/signup');
+            return res.status(400).json({"err": "User not found"});
         }
         
         const ismatch = await bcrypt.compare(password,existingUser.password);
         if(!ismatch){
             console.log('Incorrect Password');
-            return res.end('Incorrect Password')
+            return res.status(400).end('Incorrect Password')
+        }else{
+            req.session.isAuth = true;
+            req.session.userId = existingUser._id;
+            console.log(req.session.userId);
+            res.status(200).send("logged in");
         }
-
-        req.session.isAuth = true;
-        req.session.userId = existingUser._id;
-        console.log(req.session.userId);
-        res.status(200).send("logged in");
+        
     }
     catch(err){
         console.log(err)

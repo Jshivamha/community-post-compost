@@ -7,7 +7,10 @@ const cors = require('cors')
 
 const app = express()
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 
 const PORT = process.env.PORT
 const MONGO_URI = process.env.MONGO_URI
@@ -20,9 +23,14 @@ const store = MongoDBSession.create({
 
 app.use(session({
     secret: "this is the key",
+    saveUninitialized: true,
     resave: false,
-    saveUninitialized: false,
-    store: store,
+    store,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        sameSite: 'None',
+    },
 }));
 
 app.get('/',(req,res) => {

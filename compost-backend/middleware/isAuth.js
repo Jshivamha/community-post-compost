@@ -1,13 +1,13 @@
-const express = require('express')
+const express = require('express');
 const session = require('express-session');
 
-const isAuth = (req,res,next) => {
-    if(req.session.isAuth){
-        next();
-    }else{
-        console.log("Please Login first");
-        res.send("Please Login first")
+const isAuth = (req, res, next) => {
+    if (req.session && req.session.isAuth) {
+        return next();
+    } else {
+        console.log("Please login first");
+        return res.redirect('/login');
     }
-}
+};
 
-module.exports = isAuth
+module.exports = isAuth;

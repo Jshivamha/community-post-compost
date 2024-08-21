@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Community = require('./community');
+const Community = require('./Community');
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({

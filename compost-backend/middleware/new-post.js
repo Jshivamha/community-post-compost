@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Post = require('../modals/post')
-const Community = require('../modals/community')
+const Community = require('../modals/Community')
 
 router.get('/', async (req,res,next) => {
     console.log("visited newpost")

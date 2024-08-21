@@ -14,7 +14,7 @@ router.use('/mycommunity',community)
 router.get('/dashboard',async(req,res) => {
     console.log('Visited dashboard');
     const user = await User.findById(req.session.userId);
-    res.send(`Welcome to the dashboard ${user.name}`)
+    res.json({"msg":`Welcome to the dashboard ${user.name}`})
 })
 
 module.exports = router

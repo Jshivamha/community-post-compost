@@ -20,7 +20,7 @@ router.post('/',async(req,res) => {
         const existingUser = await User.findOne({email})
         if(existingUser){
             console.log('User already exist')
-            return res.status(400).send('User already exists');
+            return res.status(400).json({"err":'User already exists'});
         }
         
         const hashedpwd = await bcrypt.hash(password,10);
@@ -35,9 +35,7 @@ router.post('/',async(req,res) => {
     }
     catch(err){
         console.log(err)
-    }
-
-    
+    }   
 
 })
 
