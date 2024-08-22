@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:5173',
-    credentials: true
+    credentials: true,
 }));
 
 const PORT = process.env.PORT
@@ -23,7 +23,7 @@ const store = MongoDBSession.create({
 
 app.use(session({
     secret: "this is the key",
-    saveUninitialized: true,
+    saveUninitialized: false,
     resave: false,
     store,
     cookie: {
@@ -32,6 +32,7 @@ app.use(session({
         sameSite: 'None',
     },
 }));
+
 
 app.get('/',(req,res) => {
     console.log('Visited Home Page');

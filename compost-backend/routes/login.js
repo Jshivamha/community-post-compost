@@ -25,20 +25,18 @@ router.post('/',async(req,res) => {
         
         const ismatch = await bcrypt.compare(password,existingUser.password);
         if(!ismatch){
-            console.log('Incorrect Password');
+            console.log('Incorrect Password')
             return res.status(400).end('Incorrect Password')
-        }else{
-            req.session.isAuth = true;
-            req.session.userId = existingUser._id;
-            console.log(req.session.userId);
-            res.status(200).send("logged in");
         }
+        req.session.isAuth = true;
+        req.session.userId = existingUser._id;
+        console.log(req.session);
+        res.status(200).send("logged in");
         
     }
     catch(err){
         console.log(err)
-    }
-    
+    } 
 
 })
 

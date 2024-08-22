@@ -44,19 +44,20 @@ const Login = () => {
             className: "bg-black border-green-500",
             description: "Successfully logged In ",
         })
-      }
-      console.log('Signup successful:', response.data);
-      setTimeout(() => {
-          navigate('/dashboard')
+        console.log('Signup successful:', response.data);
+        setTimeout(() => {
+          navigate('/u/dashboard')
           login();
-        },1500)
+        },1000)
+      }
+      
 
     } catch (error) {
         toast({
           className: "bg-black border-red-500 text-white",
-          description: error.response?.data?.message || "An error occurred while signing up.",
+          description: error.response.data.err || "An error occurred while signing up.",
         });
-        // console.error('Error signing up:', error);
+        console.error('Error signing up:', error);
       }
     };
 

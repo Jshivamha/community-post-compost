@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import signupimg from '../assets/signup_img.svg';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Signup = () => {
     password: ''
   });
   const { toast } = useToast()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -39,13 +41,14 @@ const Signup = () => {
             className: "bg-black border-green-500",
             description: "Your account has been successfully created ",
         })
+        navigate('/login');
       }
-      console.log('Signup successful:', response.data);
+      console.log('Signup successful: ', response.data);
 
     } catch (error) {
         toast({
           className: "bg-black border-red-500 text-white",
-          description: error.response?.data?.message || "An error occurred while signing up.",
+          description: error.response.data.err || "An error occurred while signing up.",
         });
         console.error('Error signing up:', error);
       }

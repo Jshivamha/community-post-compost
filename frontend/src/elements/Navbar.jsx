@@ -10,11 +10,9 @@ const Navbar = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const handleSubmit = async() => {
-    console.log("clicked");
-    
+  const handleSubmit = async() => {    
       try{
-          const response = await axios.post('http://localhost:3000/logout');
+          const response = await axios.post('http://localhost:3000/logout',{},{ withCredentials: true});
           if(response.status === 200){
               toast({
                   className: "bg-black border-green-500",
@@ -25,7 +23,7 @@ const Navbar = () => {
           setTimeout(() => {
               logout();
               navigate('/');
-          },1500)
+          },1000)
       }catch(err){
           console.log(err);   
       }
