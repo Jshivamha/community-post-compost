@@ -7,7 +7,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/u/dashboard');
+        const response = await axios.get('http://localhost:3000/u/dashboard', { withCredentials: true });
         setMessage(response.data.msg);
         console.log(message);
       } catch (error) {
@@ -18,6 +18,7 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
 
   return (
     <div>

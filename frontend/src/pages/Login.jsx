@@ -35,16 +35,14 @@ const Login = () => {
   
     try {
       const response = await axios.post('http://localhost:3000/login', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        withCredentials: true,
       });
       if(response.status === 200){
         toast({
             className: "bg-black border-green-500",
             description: "Successfully logged In ",
         })
-        console.log('Signup successful:', response.data);
+        console.log('Login successful:', response.data);
         setTimeout(() => {
           navigate('/u/dashboard')
           login();
