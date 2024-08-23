@@ -10,6 +10,9 @@ import ProtectedRoute from './elements/Protected';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import { ToastProvider } from './components/ui/toast';
+import axios from 'axios';
+import Allcommunities from './pages/Allcommunities';
+axios.defaults.withCredentials = true
 // import MyPosts from './pages/MyPosts';
 // import Profile from './pages/Profile';
 
@@ -30,6 +33,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/u/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/u/my-communities" element={<ProtectedRoute><Mycommunities /></ProtectedRoute>} />
+              <Route path="/u/all-communities" element={<ProtectedRoute><Allcommunities /></ProtectedRoute>} />
               {/* <Route path="/u/my-posts" element={<MyPosts />} /> */}
             </Routes>
           </div>

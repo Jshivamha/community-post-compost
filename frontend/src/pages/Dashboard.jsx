@@ -12,7 +12,7 @@ const Dashboard = () => {
         console.log(message);
       } catch (error) {
         console.error('Error fetching the dashboard message:', error);
-        setMessage('Failed to fetch the message.');
+        setMessage(error.response.data.msg);
       }
     };
 
