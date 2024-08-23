@@ -1,9 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 
-const isAuth = (req, res, next) => {
-    console.log('Session:', req.session)
-    console.log('Session:', req.session.isAuth)
+const isAuth = (req, res, next) => {    
+    console.log(req.session);
     
     if (req.session && req.session.isAuth) {
         return next();

@@ -7,6 +7,10 @@ const communitySchema = new Schema({
         ref: 'User',
         required: true,
     },
+    ownerUsername: {
+        type: String,
+        required: true,
+    },
     Communityname: {
         type: String,
         required: true,
