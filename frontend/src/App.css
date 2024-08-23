@@ -1,4 +1,27 @@
+/* Apply global styles */
 * {
-  background-color: black;
+  /* background-color: black; */
   color: white;
+  background: #000;
+  scroll-behavior: smooth;
+}
+
+/* Customize the scrollbar */
+body::-webkit-scrollbar {
+  width: 10px; /* Set the scrollbar width */
+}
+
+body::-webkit-scrollbar-track {
+  background: black; /* Track color */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #777777; /* Thumb color */
+  border-radius: 10px; /* Rounded corners for the thumb */
+  transition: background-color 0.3s ease; /* Add a hover effect */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #ffffff; /* Change thumb color on hover */
 }

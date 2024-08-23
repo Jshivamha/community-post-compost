@@ -3,8 +3,6 @@ const router = express.Router()
 const User = require('../modals/User')
 const getallcommunities = require('../middleware/getallcommunities')
 
-router.use('/getallcommunities',getallcommunities);
-
 router.get('/', async(req,res,next) => {
     try{
         const userId = req.session.userId

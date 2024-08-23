@@ -1,14 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 
-const isAuth = async (req, res, next) => {
-    const sesh =  await req.session;
-    console.log('Session:',sesh)
-    console.log(req)
-    // console.log('Session:', await req.session.isAuth)
-    return next();
+const isAuth = (req, res, next) => {
     
-    if (sesh) {
+    if (req.session && req.session.isAuth) {
         return next();
     } else {
         console.log("Please login first");

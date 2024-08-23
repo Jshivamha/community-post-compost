@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Community = require('../modals/Community')
+const User = require('../modals/User')
 
 router.get('/', async (req,res,next) => {
     console.log("visited all community")
@@ -10,7 +11,14 @@ router.get('/', async (req,res,next) => {
             return res.status(401).json({ message: "User not authenticated" });
         }
 
-        const communities = await Community.find();
+        // find the user by their ID
+        const user = await User.findById(ownerId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const communityIds = user.Communities;
+        const communities = await Community.find({ _id: { $in: communityIds } });
         
         res.status(200).json({"Communities":communities});
     }
