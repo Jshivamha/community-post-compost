@@ -9,6 +9,7 @@ const community = require('./community')
 router.use('/mycommunity',community)
 
 router.get('/dashboard',async(req,res) => {
+    
     console.log('Visited dashboard');
     const userId = req.session.userId;
     if(!userId){
