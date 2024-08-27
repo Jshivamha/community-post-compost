@@ -5,7 +5,7 @@ import Footer from './elements/Footer';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import Mycommunities from './pages/Mycommunities';
-import { AuthProvider } from './context/auth/authContext';
+import { AuthProvider } from './context/auth/AuthContext';
 import ProtectedRoute from './elements/Protected';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
