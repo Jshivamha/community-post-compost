@@ -1,6 +1,6 @@
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu'
 import { useToast } from '@/components/ui/use-toast';
-import { useAuth } from '@/context/auth/authContext';
+import { useAuth } from '@/context/auth/AuthContext';
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
