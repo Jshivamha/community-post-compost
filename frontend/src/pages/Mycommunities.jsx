@@ -48,7 +48,7 @@ const Mycommunities = () => {
         }
     
       try {
-        const response = await axios.post('http://localhost:3000/u/comm/new-community', formData);
+        const response = await axios.post('https://community-post-compost.vercel.app/u/comm/new-community', formData);
         console.log(response.status);
         
         if(response.status === 200){
@@ -57,7 +57,7 @@ const Mycommunities = () => {
                 description: "Your Community is Created",
             })
             try{
-                const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                const response = await axios.get('https://community-post-compost.vercel.app/u/comm/user-community')
                 setgetAllComms(response.data.Communities)
             }
             catch(err){
@@ -78,7 +78,7 @@ const Mycommunities = () => {
 
       const handledelete = async (commId) => {
         try{
-            const response = await axios.delete('http://localhost:3000/u/comm/delete-community', {
+            const response = await axios.delete('https://community-post-compost.vercel.app/u/comm/delete-community', {
                 data: { commId }
             });
             console.log(response.status);
@@ -89,7 +89,7 @@ const Mycommunities = () => {
                     description: "Community deleted",
                 })
                 try{
-                    const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                    const response = await axios.get('https://community-post-compost.vercel.app/u/comm/user-community')
                     setgetAllComms(response.data.Communities)
                 }
                 catch(err){
@@ -104,7 +104,7 @@ const Mycommunities = () => {
 
       const handleleave = async (commId) => {
         try{
-            const response = await axios.delete('http://localhost:3000/u/comm/leave-community', {
+            const response = await axios.delete('https://community-post-compost.vercel.app/u/comm/leave-community', {
                 data: { commId }
             });
 
@@ -114,7 +114,7 @@ const Mycommunities = () => {
                     description: "Community leaved",
                 })
                   try{
-                      const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                      const response = await axios.get('https://community-post-compost.vercel.app/u/comm/user-community')
                       setgetAllComms(response.data.Communities)
                   }
                   catch(err){
@@ -135,7 +135,7 @@ const Mycommunities = () => {
     useEffect(() => {
         const getCommunities = async () => {
             try{
-                const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                const response = await axios.get('https://community-post-compost.vercel.app/u/comm/user-community')
                 setgetAllComms(response.data.Communities)
             }
             catch(err){

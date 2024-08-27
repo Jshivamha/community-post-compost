@@ -31,7 +31,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/signup', formData, {
+      const response = await axios.post('https://community-post-compost.vercel.app/signup', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

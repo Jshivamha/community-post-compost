@@ -26,7 +26,7 @@ const Allcommunities = () => {
   useEffect(() => {
     const getCommunities = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/u/comm/all-community`);
+        const response = await axios.get(`https://community-post-compost.vercel.app/u/comm/all-community`);
         const communities = response.data.Communities;
         setAllComms(communities);
         setFilteredComms(communities);

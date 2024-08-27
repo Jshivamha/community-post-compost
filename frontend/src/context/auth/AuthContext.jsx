@@ -5,24 +5,33 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => localStorage.getItem('isAuthenticated') === 'true'
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('isAuthenticated') === 'true';
+    }
+    return false;
+  });
 
   const login = () => {
     setIsAuthenticated(true);
-    localStorage.setItem('isAuthenticated', 'true');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('isAuthenticated', 'true');
+    }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('isAuthenticated');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('isAuthenticated');
+    }
   };
 
   useEffect(() => {
-    const storedAuthState = localStorage.getItem('isAuthenticated');
-    if (storedAuthState === 'true') {
-      setIsAuthenticated(true);
+    if (typeof window !== 'undefined') {
+      const storedAuthState = localStorage.getItem('isAuthenticated');
+      if (storedAuthState === 'true') {
+        setIsAuthenticated(true);
+      }
     }
   }, []);
 
