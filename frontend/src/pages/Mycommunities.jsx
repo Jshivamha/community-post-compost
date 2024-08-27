@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, forwardRef } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,14 @@ import { Label } from "@/components/ui/label"
 import { useToast } from '@/components/ui/use-toast'
 import { useNavigate } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
+import { MdDelete } from "react-icons/md";
+import { MdPeople } from "react-icons/md";
 
 const Mycommunities = () => {
     const [getAllComms,setgetAllComms] = useState([])
+    const [isOpennew, setIsOpennew] = useState(false);
+    const [isOpendelete, setIsOpendelete] = useState(false);
+    const [isOpenleave, setIsOpenleave] = useState(false);
 
     const [formData, setFormData] = useState({
         Communityname: '',
@@ -43,21 +48,22 @@ const Mycommunities = () => {
         }
     
       try {
-        const response = await axios.post('http://localhost:3000/u/new-community', formData);
+        const response = await axios.post('http://localhost:3000/u/comm/new-community', formData);
         console.log(response.status);
         
         if(response.status === 200){
-          toast({
-              className: "bg-black border-green-500",
-              description: "Your Community is Created",
-          })
+            toast({
+                className: "bg-black border-green-500",
+                description: "Your Community is Created",
+            })
             try{
-                const response = await axios.get('http://localhost:3000/u/user-community')
+                const response = await axios.get('http://localhost:3000/u/comm/user-community')
                 setgetAllComms(response.data.Communities)
             }
             catch(err){
                 console.log(err);
             }
+            setIsOpennew(false);
         }
         
   
@@ -70,10 +76,66 @@ const Mycommunities = () => {
         }
       };
 
+      const handledelete = async (commId) => {
+        try{
+            const response = await axios.delete('http://localhost:3000/u/comm/delete-community', {
+                data: { commId }
+            });
+            console.log(response.status);
+
+            if(response.status === 200){
+                toast({
+                    className: "bg-black border-green-500",
+                    description: "Community deleted",
+                })
+                try{
+                    const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                    setgetAllComms(response.data.Communities)
+                }
+                catch(err){
+                    console.log(err);
+                }
+                setIsOpendelete(false);
+            }
+        }catch(err){
+            console.log(err.message);
+        }
+      }
+
+      const handleleave = async (commId) => {
+        try{
+            const response = await axios.delete('http://localhost:3000/u/comm/leave-community', {
+                data: { commId }
+            });
+
+            if(response.status === 200){
+                toast({
+                    className: "bg-black border-green-500",
+                    description: "Community leaved",
+                })
+                  try{
+                      const response = await axios.get('http://localhost:3000/u/comm/user-community')
+                      setgetAllComms(response.data.Communities)
+                  }
+                  catch(err){
+                      console.log(err);
+                  }
+                  setIsOpenleave(false);
+                }
+            }catch(err){
+                console.log(err.response.data.err);
+                toast({
+                    className: "bg-black border-yellow-500",
+                    description: err.response.data.err,
+                })
+                setIsOpenleave(false);
+        }
+      }
+
     useEffect(() => {
         const getCommunities = async () => {
             try{
-                const response = await axios.get('http://localhost:3000/u/user-community')
+                const response = await axios.get('http://localhost:3000/u/comm/user-community')
                 setgetAllComms(response.data.Communities)
             }
             catch(err){
@@ -90,9 +152,9 @@ const Mycommunities = () => {
                 <div className='flex justify-between'>
                     <p className='text-[20px] font-mono max-w-fit px-4 py-1 rounded-md bg-gray-900'>Your Communities</p>
                     <div className="space-x-4">
-                        <Dialog>
+                        <Dialog opennew={isOpennew} onOpenChange={setIsOpennew}>
                             <DialogTrigger asChild>
-                            <Button className='text-[20px] font-mono max-w-fit px-4 py-1 rounded-md bg-gray-900'>New</Button>
+                            <Button className='text-[20px] font-mono max-w-fit px-4 py-1 rounded-md bg-gray-900' onClick={() => setIsOpennew(true)} >New</Button>
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[600px] border-gray-900">
                                 <DialogHeader>
@@ -128,11 +190,48 @@ const Mycommunities = () => {
                     {
                         getAllComms.map((comm) => (
                             <div key={comm._id} className='border rounded-md border-gray-800 p-4'>
-                                <div className="space-y-1">
-                                    <h4 className="text-2xl font-semibold font-mono leading-none">{comm.Communityname}</h4>
-                                    <p className="text-lg font-medium text-muted-foreground">
-                                        {comm.Communitydescription}
-                                    </p>
+                                <div className="flex justify-between">
+                                    <div className="space-y-1">
+                                        <h4 className="text-2xl font-semibold font-mono leading-none">{comm.Communityname}</h4>
+                                        <p className="text-lg font-medium text-muted-foreground">
+                                            {comm.Communitydescription}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center space-x-4">
+                                        <MdPeople size={24} />
+                                        <Dialog open={isOpendelete} onOpenChange={setIsOpendelete}>
+                                            <DialogTrigger asChild>
+                                                <MdDelete size={24} className='text-red-400 cursor-pointer' onClick={() => setIsOpendelete(true)} />
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[600px] border-gray-900">
+                                                <DialogHeader>
+                                                <DialogTitle className='text-xl text-red-500 font-semibold'>Are you sure to delete - <span className='text-xl'>{comm.Communityname}</span></DialogTitle>
+                                                <DialogDescription className='text-md'>
+                                                    All the post and members will be removed ! 
+                                                </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <Button onClick={() => {handledelete(comm._id)}} className='border border-red-500' type="submit">Delete</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                        <Dialog open={isOpenleave} onOpenChange={setIsOpenleave}>
+                                            <DialogTrigger asChild>
+                                                <svg className='h-5 cursor-pointer' onClick={() => setIsOpenleave(true)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#ffffff" d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/></svg>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[600px] border-gray-900">
+                                                <DialogHeader>
+                                                <DialogTitle className='text-xl text-yellow-500 font-semibold'>Are you sure leave - <span className='text-xl'>{comm.Communityname}</span></DialogTitle>
+                                                <DialogDescription className='text-md'>
+                                                    You can always join later !
+                                                </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <Button onClick={() => {handleleave(comm._id)}} className='border border-yellow-500' type="submit">Leave</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
                                 </div>
                                 <Separator className="my-5" />
                                 <div className="flex font-mono text-md h-5 items-center space-x-4">

@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../modals/User')
-const getallcommunities = require('../middleware/getallcommunities')
+const User = require('../models/User')
 
 router.get('/', async(req,res,next) => {
     try{

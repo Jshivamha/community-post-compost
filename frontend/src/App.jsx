@@ -23,7 +23,7 @@ function App() {
     <ToastProvider>
     <AuthProvider>
       <Router>
-        <div className='h-screen flex flex-col'>
+        <div className='h-screen flex flex-col pb-24'>
           <Navbar />
           <div className='flex-grow pt-24 px-12'>
             <Routes>
@@ -37,7 +37,7 @@ function App() {
               {/* <Route path="/u/my-posts" element={<MyPosts />} /> */}
             </Routes>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </AuthProvider>

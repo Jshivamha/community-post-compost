@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Community = require('../modals/community')
+const Community = require('../models/Community')
 
 const newpost = require('../middleware/new-post')
 router.use('/new-post',newpost)

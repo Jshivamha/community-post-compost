@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../modals/User')
+const User = require('../models/User')
 
-const newcommunity = require('../middleware/new-community')
-router.use('/new-community',newcommunity)
+const CommunityController = require('../middleware/Comm')
+router.use('/comm',CommunityController)
 
 const community = require('./community')
 router.use('/mycommunity',community)
-
-const allCommunities = require('../middleware/getallcommunities')
-router.use('/all-community',allCommunities)
-const userCommunities = require('../middleware/getusercommunitites')
-router.use('/user-community',userCommunities)
 
 router.get('/dashboard',async(req,res) => {
     

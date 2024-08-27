@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const session = require('express-session')
-const User = require('../modals/User')
+const User = require('../models/User')
 
 router.post('/',async(req,res) => {
     console.log('Visited login Page');

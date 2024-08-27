@@ -19,6 +19,7 @@ const communitySchema = new Schema({
     },
     Communitydescription: {
         type: String,
+        required: true,
         trim: true,
     },
     members: [{
