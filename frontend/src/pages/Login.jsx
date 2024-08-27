@@ -34,7 +34,7 @@ const Login = () => {
       }
   
     try {
-      const response = await axios.post('https://community-post-compost.vercel.app/login', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/login`, formData, {
         withCredentials: true,
       });
       if(response.status === 200){
