@@ -8,7 +8,14 @@ const cors = require('cors')
 
 const app = express()
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+    origin: ['https://compost-delta.vercel.app', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+  };
+  app.options('*', cors(corsOptions)); // Preflight request handler
+
 
 const PORT = process.env.PORT
 const MONGO_URI = process.env.MONGO_URI
