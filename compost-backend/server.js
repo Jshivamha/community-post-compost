@@ -12,9 +12,10 @@ const corsOptions = {
     origin: ['https://compost-delta.vercel.app', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  };
-  app.options('*', cors(corsOptions)); // Preflight request handler
+    credentials: true // Necessary for including cookies and auth headers
+};
+app.use(cors(corsOptions)); // Use CORS for all routes
+app.options('*', cors(corsOptions));
 
 
 const PORT = process.env.PORT
