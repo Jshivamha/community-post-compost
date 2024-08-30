@@ -19,7 +19,7 @@ app.use(cors(corsOptions)); // Use CORS for all routes
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
-const store = MongoDBSession.create({
+const store = MongoDBSession.create({ 
     mongoUrl: MONGO_URI,
     collectionName: 'mysession',
 });
@@ -61,5 +61,5 @@ mongoose.connect(MONGO_URI)
         });
     })
     .catch((error) => {
-        console.log(error);
-    });
+        console.log(error);  
+    });  
