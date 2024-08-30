@@ -8,18 +8,19 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 
-const corsOptions = {
-    origin: ['https://compost-delta.vercel.app', 'http://localhost:5173'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Necessary for including cookies and auth headers
-};
-app.use(cors(corsOptions)); // Use CORS for all routes
+// const corsOptions = {
+//     origin: ['https://compost-delta.vercel.app', 'http://localhost:5173'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true, // Necessary for including cookies and auth headers
+// };
+// app.use(cors(corsOptions)); // Use CORS for all routes
+app.use(cors());
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
-const store = MongoDBSession.create({ 
+const store = MongoDBSession.create({
     mongoUrl: MONGO_URI,
     collectionName: 'mysession',
 });

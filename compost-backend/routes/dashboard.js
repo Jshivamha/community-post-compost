@@ -5,9 +5,6 @@ const User = require('../models/User')
 const CommunityController = require('../middleware/Comm')
 router.use('/comm',CommunityController)
 
-const community = require('./community')
-router.use('/mycommunity',community)
-
 router.get('/dashboard',async(req,res) => {
     
     console.log('Visited dashboard');
