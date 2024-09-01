@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBSession = require('connect-mongo');
 const cors = require('cors');
-const Community = require('./models/Community')
 
 const app = express();
 app.use(express.json());
@@ -16,7 +15,6 @@ const corsOptions = {
     credentials: true, // Necessary for including cookies and auth headers
 };
 app.use(cors(corsOptions)); // Use CORS for all routes
-// app.use(cors());
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -37,24 +35,6 @@ app.use(session({
     },
 }));
 
-app.get('/', (req, res) => {
-    console.log('Visited Home Page');
-    res.send('Welcome to the home Page');
-});
-
-const Signup = require('./routes/signup');
-app.use('/signup', Signup);
-
-const Login = require('./routes/login');
-app.use('/login', Login);
-
-const logout = require('./routes/logout');
-app.use('/logout', logout);
-
-const isAuth = require('./controllers/isAuth');
-const dashboard = require('./routes/dashboard');
-app.use('/u', isAuth, dashboard);
-
 // Mongo connect and URL connect
 mongoose.connect(MONGO_URI)
     .then(() => {
@@ -65,3 +45,18 @@ mongoose.connect(MONGO_URI)
     .catch((error) => {
         console.log(error);  
     });  
+
+
+
+app.get('/', (req, res) => {
+    console.log('Visited Home Page');
+    res.send('Welcome to the home Page');
+});
+
+const Auth = require('./routes/Auth')
+app.use('/auth',Auth)
+
+const isAuth = require('./controllers/isAuth');
+const dashboard = require('./routes/dashboard');
+app.use('/u', isAuth, dashboard);
+
