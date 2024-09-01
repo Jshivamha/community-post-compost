@@ -33,15 +33,6 @@ app.use(session({
     },
 }));
 
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log(`Connected to db and Listening on PORT: ${process.env.PORT}`);
-        });
-    })
-    .catch((error) => {
-        console.log(error);  
-    }); 
 
 app.get('/', (req, res) => {
     console.log('Visited Home Page');
@@ -54,3 +45,14 @@ app.use('/auth',Auth)
 const isAuth = require('./controllers/isAuth');
 const dashboard = require('./routes/dashboard');
 app.use('/u', isAuth, dashboard);
+
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        app.listen(process.env.PORT, () => {
+            console.log(`Connected to db and Listening on PORT: ${process.env.PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.log(error);  
+    }); 
