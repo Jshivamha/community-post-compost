@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBSession = require('connect-mongo');
 const cors = require('cors');
+const Community = require('./models/Community')
 
 const app = express();
 app.use(express.json());
@@ -50,7 +51,7 @@ app.use('/login', Login);
 const logout = require('./routes/logout');
 app.use('/logout', logout);
 
-const isAuth = require('./middleware/isAuth');
+const isAuth = require('./controllers/isAuth');
 const dashboard = require('./routes/dashboard');
 app.use('/u', isAuth, dashboard);
 

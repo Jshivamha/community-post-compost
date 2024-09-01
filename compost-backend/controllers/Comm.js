@@ -64,7 +64,6 @@ router.delete('/leave-community', async (req, res, next) => {
     }
 });
 
-
 router.post('/new-community', async (req, res, next) => {
     console.log("Visited create community");
     try {

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Community = require('../models/Community')
 
-const newpost = require('../middleware/new-post')
+const newpost = require('./new-post')
 router.use('/new-post',newpost)
 
 router.get('/',async(req,res) => {
