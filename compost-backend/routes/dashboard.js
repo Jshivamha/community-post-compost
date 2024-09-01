@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
-const Community = require('../models/Community');
 
 const CommunityController = require('../controllers/Comm')
 router.use('/comm',CommunityController)

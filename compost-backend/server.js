@@ -1,9 +1,10 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoDBSession = require('connect-mongo');
-const cors = require('cors');
+require('dotenv').config()
+
+const express = require('express')
+const session = require('express-session')
+const MongoDBSession = require('connect-mongo')
+const mongoose = require('mongoose')
+const cors = require('cors')
 
 const app = express();
 app.use(express.json());
@@ -16,13 +17,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions)); // Use CORS for all routes
 
-const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
-
 const store = MongoDBSession.create({
-    mongoUrl: MONGO_URI,
-    collectionName: 'mysession',
-});
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'mysession'
+})
 
 app.use(session({
     secret: "this is the key",
@@ -30,27 +28,24 @@ app.use(session({
     resave: false,
     store,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // Set to true if using https
+        secure: false, // Set to true if using https
         httpOnly: true,
     },
 }));
 
-// Mongo connect and URL connect
-mongoose.connect(MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Connected to db and Listening on PORT: ${PORT}`);
+        app.listen(process.env.PORT, () => {
+            console.log(`Connected to db and Listening on PORT: ${process.env.PORT}`);
         });
     })
     .catch((error) => {
         console.log(error);  
-    });  
-
-
+    }); 
 
 app.get('/', (req, res) => {
     console.log('Visited Home Page');
-    res.send('Welcome to the home Page');
+    res.status(200).send('Welcome to the home Page');
 });
 
 const Auth = require('./routes/Auth')
@@ -59,4 +54,3 @@ app.use('/auth',Auth)
 const isAuth = require('./controllers/isAuth');
 const dashboard = require('./routes/dashboard');
 app.use('/u', isAuth, dashboard);
-
