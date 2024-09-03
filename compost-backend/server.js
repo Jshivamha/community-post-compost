@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-    origin: ['https://compost-delta.vercel.app', 'http://localhost:5173'],
+    origin: ['https://compost-delta.vercel.app', 'http://localhost:3000', 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Necessary for including cookies and auth headers
@@ -28,7 +28,7 @@ app.use(session({
     resave: false,
     store,
     cookie: {
-        secure: false, // Set to true if using https
+        secure: false,
         httpOnly: true,
     },
 }));
@@ -39,17 +39,18 @@ app.get('/', (req, res) => {
     res.status(200).send('Welcome to the home Page');
 });
 
-const Auth = require('./routes/Auth')
-app.use('/auth',Auth)
+// const Auth = require('./routes/Auth')
+const AuthController = require('./controllers/AuthController');
+app.use('/auth',AuthController)
 
 const isAuth = require('./controllers/isAuth');
 const dashboard = require('./routes/dashboard');
-app.use('/u', isAuth, dashboard);
+app.use('/u', isAuth, dashboard);   
 
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        app.listen(process.env.PORT, () => {
+        app.listen(4000, () => {
             console.log(`Connected to db and Listening on PORT: ${process.env.PORT}`);
         });
     })

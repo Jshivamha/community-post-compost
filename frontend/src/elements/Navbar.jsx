@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const handleSubmit = async() => {    
       try{
-          const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/logout`,{},{ withCredentials: true});
+          const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/auth/logout`,{},{ withCredentials: true});
           if(response.status === 200){
               toast({
                   className: "bg-black border-green-500",

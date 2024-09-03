@@ -25,7 +25,7 @@ router.post('/login',async(req,res) => {
         const ismatch = await bcrypt.compare(password,existingUser.password);
         if(!ismatch){
             console.log('Incorrect Password')
-            return res.status(400).end('Incorrect Password')
+            return res.status(400).json({"err":'Incorrect Password'});
         }
         req.session.isAuth = true;
         req.session.userId = existingUser._id;

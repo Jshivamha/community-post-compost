@@ -5,6 +5,8 @@ const User = require('../models/User')
 const CommunityController = require('../controllers/Comm')
 router.use('/comm',CommunityController)
 
+
+
 router.get('/dashboard',async(req,res) => {
     
     console.log('Visited dashboard');

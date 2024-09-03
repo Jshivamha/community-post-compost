@@ -31,7 +31,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/signup`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/auth/signup`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },

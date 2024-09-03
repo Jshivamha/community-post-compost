@@ -34,7 +34,7 @@ const Login = () => {
       }
   
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/login`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/auth/login`, formData, {
         withCredentials: true,
       });
       if(response.status === 200){
