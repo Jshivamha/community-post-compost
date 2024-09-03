@@ -28,8 +28,9 @@ app.use(session({
     resave: false,
     store,
     cookie: {
-        secure: false,
+        secure: true,
         httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 12, // 12 hr
     },
 }));
 
