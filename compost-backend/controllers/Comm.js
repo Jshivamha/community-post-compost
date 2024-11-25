@@ -3,6 +3,8 @@ const router = express.Router();
 const Community = require('../models/Community');
 const User = require('../models/User');
 
+const newpost = require('./Post')
+router.use('/post',newpost)
 
 router.delete('/delete-community', async (req, res, next) => {
     console.log("visited delete community");
@@ -154,6 +156,85 @@ router.get('/user-community', async (req,res,next) => {
         console.log(err);
     }
 })
+
+router.post('/add-to-community', async (req, res, next) => {
+    console.log("Visited add to community");
+    try {
+        const { communityId } = req.body;
+        const userId = req.session.userId;
+
+        if (!communityId) {
+            return res.status(400).json({ message: "Community ID is required" });
+        }
+
+        if (!userId) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        // Fetch the community
+        const community = await Community.findById(communityId);
+        if (!community) {
+            return res.status(404).json({ message: "Community not found" });
+        }
+
+        // Check if the user is already a member
+        if (community.members.includes(userId)) {
+            return res.status(400).json({ message: "User is already a member of the community" });
+        }
+
+        // Add user to the community members list
+        community.members.push(userId);
+        await community.save();
+
+        // Add community to the user's Communities list
+        const user = await User.findByIdAndUpdate(userId, {
+            $push: { Communities: communityId }
+        }, { new: true });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        console.log(`User ${userId} added to community ${communityId}`);
+        res.status(200).json({ message: "User added to community successfully", community });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error", error: err.message });
+    }
+});
+
+
+router.get('/community/:id', async (req, res) => {
+    console.log("Visited show community details");
+    
+    try {
+        const { id } = req.params;
+
+        // Find the community and populate the posts
+        const community = await Community.findById(id)
+            .populate({
+                path: 'posts', // Path to the posts array
+                populate: {
+                    path: 'user', // Populate the user field inside each post
+                    select: 'name email', // Select specific fields from the user
+                }
+            });
+
+        if (!community) {
+            return res.status(404).json({ message: "Community not found" });
+        }
+
+        console.log(community);
+
+        res.status(200).json(community);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+  
 
 
 

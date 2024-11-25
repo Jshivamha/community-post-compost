@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import { ToastProvider } from './components/ui/toast';
 import axios from 'axios';
 import Allcommunities from './pages/Allcommunities';
+import CommunityPage from './pages/CommunityPage';
 
 axios.defaults.withCredentials = true;
 
@@ -30,9 +31,9 @@ function App() {
                 <Route path="/u/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/u/my-communities" element={<ProtectedRoute><Mycommunities /></ProtectedRoute>} />
                 <Route path="/u/all-communities" element={<ProtectedRoute><Allcommunities /></ProtectedRoute>} />
+                <Route path="/u/community/:id" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
               </Routes>
             </div>
-            {/* <Footer /> */}
           </div>
         </Router>
       </AuthProvider>

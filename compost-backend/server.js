@@ -28,9 +28,9 @@ app.use(session({
     resave: false,
     store,
     cookie: {
-        secure: true,
+        secure: false,
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 12, // 12 hr
+        maxAge: 1000 * 60 * 60 * 12,
     },
 }));
 
@@ -46,7 +46,7 @@ app.use('/auth',AuthController)
 
 const isAuth = require('./controllers/isAuth');
 const dashboard = require('./routes/dashboard');
-app.use('/u', isAuth, dashboard);   
+app.use('/u', isAuth, dashboard);
 
 
 mongoose.connect(process.env.MONGO_URI)

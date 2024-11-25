@@ -7,42 +7,20 @@ const postSchema = new Schema({
         ref: 'User',
         required: true,
     },
-    title: {
+    Postname: {
         type: String,
         required: true,
         trim: true,
     },
-    description: {
+    Postdescription: {
         type: String,
         // required: true,
         trim: true,
     },
-    // image: {
-    //     type: String,
-    //     required: true,
-    // },
     createdAt: {
         type: Date,
         default: Date.now,
     },
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }],
-    // comments: [{
-    //     user: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'User',
-    //     },
-    //     comment: {
-    //         type: String,
-    //         trim: true,
-    //     },
-    //     createdAt: {
-    //         type: Date,
-    //         default: Date.now,
-    //     }
-    // }]
 });
 
 const Post = mongoose.model('Post', postSchema);
