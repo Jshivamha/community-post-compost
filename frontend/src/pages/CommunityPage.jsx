@@ -17,14 +17,10 @@ import { useToast } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 
 const CommunityPage = () => {
-  const { id } = useParams(); // Get the community ID from the URL
+  const { id } = useParams();
   const [community, setCommunity] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const [getAllPosts,setgetAllPosts] = useState([])
   const [isOpennew, setIsOpennew] = useState(false);
-  const [isOpendelete, setIsOpendelete] = useState(false);
-  const [isOpenleave, setIsOpenleave] = useState(false);
 
   const { toast } = useToast();
 
@@ -58,7 +54,7 @@ const CommunityPage = () => {
         })
         try{
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_PORT}/u/comm/community/${id}`)
-            setgetAllPosts(response.data.Communities)
+            setCommunity(response.data)
         }
         catch(err){
             console.log(err);
@@ -156,12 +152,13 @@ const CommunityPage = () => {
             community.posts.map((post) => (
               <div
                 key={post._id}
-                className="border border-gray-800 rounded-md p-4 hover:bg-gray-800 transition"
+                className="border border-gray-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition-transform transform hover:scale-[103%]"
               >
-                <h3 className="text-xl font-bold">{post.title}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{post.description}</p>
-                <div className="text-xs text-muted-foreground mt-1">
-                  Posted by: {post.authorUsername}
+                <h3 className="text-2xl font-semibold text-white mb-2">{post.Postname}</h3>
+                <p className="text-sm text-gray-400 mb-4">{post.Postdescription}</p>
+                <div className="text-xs text-gray-500 mb-1 flex justify-between items-baseline">
+                  <div className=""><span className="font-medium text-gray-300">Posted by:</span> {post.user.name}</div>
+                  <div className=""><span className="font-medium text-gray-300">Posted On:</span> {new Date(post.createdAt).toLocaleString()}</div>
                 </div>
               </div>
             ))

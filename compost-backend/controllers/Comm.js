@@ -21,6 +21,10 @@ router.delete('/delete-community', async (req, res, next) => {
             return res.status(404).json({ message: "Community not found" });
         }
 
+        if(req.session.userId != community.ownerId){
+            return res.status(404).json({ message: "Only Owner can Delete this Community" });
+        }
+
         await Community.findByIdAndDelete(commId);
 
         await User.findByIdAndUpdate(community.ownerId, {
