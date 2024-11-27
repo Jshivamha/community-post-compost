@@ -22,6 +22,7 @@ const communitySchema = new Schema({
         required: true,
         trim: true,
     },
+    image: { type: Buffer },
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

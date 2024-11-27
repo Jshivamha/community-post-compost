@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Community = require('../models/Community');
 const User = require('../models/User');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const newpost = require('./Post')
 router.use('/post',newpost)
@@ -70,10 +74,10 @@ router.delete('/leave-community', async (req, res, next) => {
     }
 });
 
-router.post('/new-community', async (req, res, next) => {
+router.post('/new-community', upload.single('image'), async (req, res, next) => {
     console.log("Visited create community");
     try {
-        const { Communityname, Communitydescription } = req.body;
+        const { Communityname, Communitydescription, image } = req.body;
         const owner = await User.findById(req.session.userId);
         const ownerId = owner._id;
 
@@ -93,12 +97,27 @@ router.post('/new-community', async (req, res, next) => {
         if (existingCommunity) {
             return res.status(400).json({ err: "Community name already exists" });
         }
+
+        let imageBuffer = null;
+
+        if (image) {
+            const matches = image.match(/^data:(.+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                const base64Data = matches[2];
+                imageBuffer = Buffer.from(base64Data, 'base64');
+            } else {
+                return res.status(400).json({ message: "Invalid image format" });
+            }
+        } else {
+            console.log("No image provided");
+        }
         
         const newCommunity = await Community.create({
             ownerId: ownerId,
             ownerUsername: owner.name,
             Communityname,
             Communitydescription,
+            image: imageBuffer,
             members: [ownerId],
         });
         
