@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
+    },
+    community: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Community',
         required: true,
     },
     Postname: {
@@ -14,7 +19,6 @@ const postSchema = new Schema({
     },
     Postdescription: {
         type: String,
-        // required: true,
         trim: true,
     },
     createdAt: {

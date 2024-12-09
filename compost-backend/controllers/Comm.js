@@ -181,7 +181,6 @@ router.get('/user-community', async (req,res,next) => {
 })
 
 router.post('/add-to-community', async (req, res, next) => {
-    console.log("Visited add to community");
     try {
         const { communityId } = req.body;
         const userId = req.session.userId;
@@ -218,7 +217,6 @@ router.post('/add-to-community', async (req, res, next) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        console.log(`User ${userId} added to community ${communityId}`);
         res.status(200).json({ message: "User added to community successfully", community });
 
     } catch (err) {
@@ -229,7 +227,6 @@ router.post('/add-to-community', async (req, res, next) => {
 
 
 router.get('/community/:id', async (req, res) => {
-    console.log("Visited show community details");
     
     try {
         const { id } = req.params;
@@ -247,9 +244,6 @@ router.get('/community/:id', async (req, res) => {
         if (!community) {
             return res.status(404).json({ message: "Community not found" });
         }
-
-        console.log(community);
-
         res.status(200).json(community);
     } catch (err) {
         console.error(err);

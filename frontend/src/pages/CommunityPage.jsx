@@ -25,53 +25,53 @@ const CommunityPage = () => {
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
-    Communityname: '',
-    Communitydescription: ''
+    Postname: '',
+    Postdescription: ''
   });
 
   const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!formData.Postname || !formData.Postdescription){
-        toast({
-            className: "bg-black border-red-500 text-white",
-            description: "Incomplete fields",
-        });
-        return;
-    }
-
-  try {
-    formData.commId = id;
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/u/comm/post/create-post`, formData);
-    
-    if(response.status === 200){
-        toast({
-            className: "bg-black border-green-500",
-            description: "Your Post is Created",
-        })
-        try{
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_PORT}/u/comm/community/${id}`)
-            setCommunity(response.data)
-        }
-        catch(err){
-            console.log(err);
-        }
-        setIsOpennew(false);
-    }
-    
-
-  } catch (error) {
+    if (formData.Postname.trim() === '' || formData.Postdescription.trim() === '') {
       toast({
         className: "bg-black border-red-500 text-white",
-        description: error.response.data.err || "An error occurred while creating Post",
+        description: "Incomplete fields",
       });
-      console.error('Error creating post');
+      return;
+    }
+
+    try {
+      formData.commId = id;
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/api/post/createPost`, {
+        commId: id,
+        Postname: formData.Postname,
+        Postdescription: formData.Postdescription
+      });
+
+      if (response.status === 200) {
+        toast({
+          className: "bg-black border-green-500",
+          description: "Your Post is Created",
+        });
+        window.location.reload();
+        setIsOpennew(false);
+      } else {
+        toast({
+          className: "bg-black border-red-500 text-white",
+          description: "Failed to create post, please try again",
+        });
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+      toast({
+        className: "bg-black border-red-500 text-white",
+        description: error.response?.data?.err || "An error occurred while creating Post",
+      });
     }
   };
-
 
   useEffect(() => {
     const fetchCommunity = async () => {
@@ -96,7 +96,7 @@ const CommunityPage = () => {
       <Toaster />
       {/* Community Header */}
       <div className="pb-6 flex justify-between items-center">
-        <div className="">  
+        <div className="">
           <h1 className="text-4xl font-bold">{community.Communityname}</h1>
           <p className="text-lg text-muted-foreground mt-2">{community.Communitydescription}</p>
           <div className="flex items-center space-x-4 mt-4">
@@ -111,36 +111,32 @@ const CommunityPage = () => {
         <div className="">
           <Dialog opennew={isOpennew} onOpenChange={setIsOpennew}>
             <DialogTrigger asChild>
-            <Button className='text-[20px] font-mono max-w-fit px-4 py-1 rounded-md bg-gray-900' onClick={() => setIsOpennew(true)} >New Post</Button>
+              <Button className='text-[20px] font-mono max-w-fit px-4 py-1 rounded-md bg-gray-900' onClick={() => setIsOpennew(true)}>New Post</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px] border-gray-900">
-                <DialogHeader>
-                  <DialogTitle className='text-2xl font-bold'>Create a New Post!</DialogTitle>
-                  <DialogDescription className='text-md'>
+              <DialogHeader>
+                <DialogTitle className='text-2xl font-bold'>Create a New Post!</DialogTitle>
+                <DialogDescription className='text-md'>
                   Share your thoughts, ideas, or updates with the community. Add a title, description, and optional image to start the discussion.
-                  </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handleSubmit}>
-                    <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="Postname" className="text-right text-md">
-                        Title
-                        </Label>
-                        <Input onChange={handleChange} id="Postname" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="Postdescription" className="text-right text-md">
-                        Description
-                        </Label>
-                        <Input onChange={handleChange} id="Postdescription" className="col-span-3" />
-                    </div>
-                    </div>
-                    <DialogFooter>
-                    <Button type="submit">Save changes</Button>
-                    </DialogFooter>
-                </form>
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="Postname" className="text-right text-md">Title</Label>
+                    <Input onChange={handleChange} id="Postname" className="col-span-3"  value={formData.Postname}/>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="Postdescription" className="text-right text-md">Description</Label>
+                    <Input onChange={handleChange} id="Postdescription" className="col-span-3" value={formData.Postdescription} />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </form>
             </DialogContent>
-        </Dialog>
+          </Dialog>
         </div>
       </div>
 
