@@ -13,11 +13,13 @@ import { ToastProvider } from './components/ui/toast';
 import axios from 'axios';
 import Allcommunities from './pages/Allcommunities';
 import CommunityPage from './pages/CommunityPage';
+import { ThemeProvider } from "@material-tailwind/react";
 
 axios.defaults.withCredentials = true;
 
 function App() {
   return (
+    <ThemeProvider>
     <ToastProvider>
       <AuthProvider>
         <Router>
@@ -38,6 +40,7 @@ function App() {
         </Router>
       </AuthProvider>
     </ToastProvider>
+    </ThemeProvider>
   );
 }
 

@@ -4,6 +4,8 @@ import { useAuth } from '@/context/auth/AuthContext';
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button"
+
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -59,22 +61,24 @@ const Navbar = () => {
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
+
             <div>
               <NavigationMenu>
-                <NavigationMenuList className="flex space-x-8 mt-1">
+                <NavigationMenuList className="flex space-x-8 mt-1 ">
                   <NavigationMenuItem>
-                    <NavigationMenuLink onClick={() => handleSubmit()} className="text-white cursor-pointer font-mono text-lg hover:text-gray-500 transition-colors duration-300">Logout</NavigationMenuLink>
+                    <NavigationMenuLink onClick={() => handleSubmit()} className="text-black p-2 rounded-sm cursor-pointer font-mono text-lg hover:text-gray-500 bg-white transition-colors duration-300 ">Logout</NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
           :
-          <div>
-            <NavigationMenu>
+          <div className=''>
+
+            <NavigationMenu >
               <NavigationMenuList className="flex space-x-8 mt-1">
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="/signup" className="text-white font-mono text-lg hover:text-gray-500 transition-colors duration-300">Sign Up</NavigationMenuLink>
+                  <Button><NavigationMenuLink href="/signup" className="text-black font-mono bg-white text-lg hover:text-black  transition-colors duration-300">Sign Up</NavigationMenuLink></Button>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavigationMenuLink className="font-mono text-lg text-gray-500">/</NavigationMenuLink>
@@ -84,6 +88,7 @@ const Navbar = () => {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+            
           </div>
         }
       </div>

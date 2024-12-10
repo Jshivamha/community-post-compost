@@ -3,8 +3,9 @@ import axios from "axios";
 import Sidebar from "../components/ui/Sidebar";
 import Post from "../components/ui/Post";
 
+
 const Dashboard = () => {
-  const [posts, setPosts] = useState([]); 
+  const [posts, setPosts] = useState([]);
   const [isCustomFeedsOpen, setIsCustomFeedsOpen] = useState(false);
   const [isCommunitiesOpen, setIsCommunitiesOpen] = useState(false);
   const [isCreateCommunityModalOpen, setCreateCommunityModalOpen] = useState(false);
@@ -13,10 +14,15 @@ const Dashboard = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_PORT}/api/post/getAllPosts`, 
+          `${import.meta.env.VITE_BACKEND_PORT}/api/post/getAllPosts`,
           { withCredentials: true }
         );
-        setPosts(response.data.data); 
+
+        const sortedPosts = response.data.data.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        );
+
+        setPosts(sortedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -26,9 +32,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white ">
+    <div className="min-h-screen bg-black text-white">
       <div className="flex">
-        
         <Sidebar
           isCustomFeedsOpen={isCustomFeedsOpen}
           toggleCustomFeeds={() => setIsCustomFeedsOpen((prev) => !prev)}
@@ -36,10 +41,10 @@ const Dashboard = () => {
           toggleCommunities={() => setIsCommunitiesOpen((prev) => !prev)}
           setCreateCommunityModalOpen={setCreateCommunityModalOpen}
         />
-        
-        <main className="flex-1 p-6 bg-black rounded-lg shadow-lg border-2 border-white ">
+
+        <main className="flex-1 p-6 bg-black rounded-lg shadow-lg">
           <div className="grid gap-4">
-            {posts.map((post, index) => (
+            {posts.map((post) => (
               <Post
                 key={post._id}
                 post={post}
